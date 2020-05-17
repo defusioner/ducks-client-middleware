@@ -36,9 +36,9 @@ const store = configureStore({
 ```
 export const login = name => ({
   types: [LOGIN, LOGIN_SUCCESS, LOGIN_FAIL],
-  promise: (client) => client.post('/login', {
+  promise: client => client.post('/login', {
     data: {
-      name: name
+      name
     }
   }),
   debounce: 500
