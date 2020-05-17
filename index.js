@@ -32,7 +32,7 @@ export default function clientMiddleware({ client, handleError }) {
       actionPromise
         .then(result => next({ ...rest, result, type: SUCCESS }))
         .catch(error => {
-          handleError(error)
+          handleError({ error, dispatch, getState })
 
           next({ ...rest, error, type: FAILURE })
         })
