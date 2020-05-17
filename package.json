@@ -1,0 +1,9 @@
+{
+  "name": "ducks-client-middleware",
+  "version": "0.0.1",
+  "description": "A middleware to a popular redux approach",
+  "main": "index.js",
+  "keywords": ["redux", "ducks", "client", "middleware"],
+  "author": "borys.koretskyi@gmail.com",
+  "license": "MIT"
+}
