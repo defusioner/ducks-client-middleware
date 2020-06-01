@@ -38,7 +38,7 @@ const initClientMiddleware = ({ client, handleError }) => ({
   actionPromise
     .then(result => next({ ...propsToBind, result, type: SUCCESS }))
     .catch(error => {
-      handleError({ error, dispatch, getState })
+      handleError && handleError({ error, dispatch, getState })
 
       next({ ...propsToBind, error, type: FAILURE })
     })
