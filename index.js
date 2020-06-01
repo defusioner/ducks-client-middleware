@@ -38,9 +38,13 @@ const initClientMiddleware = ({ client, handleError }) => ({
   actionPromise
     .then(result => next({ ...propsToBind, result, type: SUCCESS }))
     .catch(error => {
-      handleError && handleError({ error, dispatch, getState })
+      const serializedError = JSON.parse(
+        JSON.stringify(error, Object.getOwnPropertyNames(error))
+      )
 
-      next({ ...propsToBind, error, type: FAILURE })
+      handleError && handleError({ error: serializedError, dispatch, getState })
+
+      next({ ...propsToBind, error: serializedError, type: FAILURE })
     })
 
   return actionPromise
