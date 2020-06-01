@@ -1,4 +1,4 @@
-export const createDebouncePromise = (func, wait) =>
+const createDebouncePromise = (func, wait) =>
   new Promise((res, rej) =>
     setTimeout(() => {
       try {
@@ -10,39 +10,40 @@ export const createDebouncePromise = (func, wait) =>
     }, wait)
   )
 
-export default function clientMiddleware({ client, handleError }) {
-  return ({ dispatch, getState }) => {
-    return next => action => {
-      if (typeof action === 'function') {
-        return action(dispatch, getState)
-      }
-
-      const { promise, types, debounce, persist, ...rest } = action
-      if (!promise) {
-        return next(action)
-      }
-
-      const propsToBind = {
-        ...rest,
-        ...(persist ? { __persisted__: persist(getState()) } : {})
-      }
-
-      const [REQUEST, SUCCESS, FAILURE] = types
-      next({ ...propsToBind, type: REQUEST })
-
-      const actionPromise = debounce
-        ? createDebouncePromise(() => promise(client), debounce)
-        : promise(client)
-
-      actionPromise
-        .then(result => next({ ...propsToBind, result, type: SUCCESS }))
-        .catch(error => {
-          handleError({ error, dispatch, getState })
-
-          next({ ...propsToBind, error, type: FAILURE })
-        })
-
-      return actionPromise
-    }
+const initClientMiddleware = ({ client, handleError }) => ({
+  dispatch,
+  getState
+}) => next => action => {
+  if (typeof action === 'function') {
+    return action(dispatch, getState)
   }
+
+  const { promise, types, debounce, persist, ...rest } = action
+  if (!promise) {
+    return next(action)
+  }
+
+  const propsToBind = {
+    ...rest,
+    ...(persist ? { __persisted__: persist(getState()) } : {})
+  }
+
+  const [REQUEST, SUCCESS, FAILURE] = types
+  next({ ...propsToBind, type: REQUEST })
+
+  const actionPromise = debounce
+    ? createDebouncePromise(() => promise(client), debounce)
+    : promise(client)
+
+  actionPromise
+    .then(result => next({ ...propsToBind, result, type: SUCCESS }))
+    .catch(error => {
+      handleError({ error, dispatch, getState })
+
+      next({ ...propsToBind, error, type: FAILURE })
+    })
+
+  return actionPromise
 }
+
+export default initClientMiddleware
