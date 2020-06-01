@@ -17,24 +17,29 @@ export default function clientMiddleware({ client, handleError }) {
         return action(dispatch, getState)
       }
 
-      const { promise, types, debounce, ...rest } = action
+      const { promise, types, debounce, persist, ...rest } = action
       if (!promise) {
         return next(action)
       }
 
+      const propsToBind = {
+        ...rest,
+        ...(persist ? { __persisted__: persist(getState()) } : {})
+      }
+
       const [REQUEST, SUCCESS, FAILURE] = types
-      next({ ...rest, type: REQUEST })
+      next({ ...propsToBind, type: REQUEST })
 
       const actionPromise = debounce
         ? createDebouncePromise(() => promise(client), debounce)
         : promise(client)
 
       actionPromise
-        .then(result => next({ ...rest, result, type: SUCCESS }))
+        .then(result => next({ ...propsToBind, result, type: SUCCESS }))
         .catch(error => {
           handleError({ error, dispatch, getState })
 
-          next({ ...rest, error, type: FAILURE })
+          next({ ...propsToBind, error, type: FAILURE })
         })
 
       return actionPromise
