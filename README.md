@@ -3,8 +3,9 @@ A middleware to the popular redux approach (https://github.com/erikras/ducks-mod
 ## Features
 
 ### Action creator fields (to use, add a field to the return of your action creator)
-- `debounce: number` - adds an optional debounce on promises
-- `persist: (state) => any` - adds an optional data persistence during ducks action. The persisted data is stored under `action.__persisted__`. Could be used to undo an effect created on one request start, on its fail
+
+- `debounce: number` - adds a debounce on request. Could be used for visual purposes during too fast requests (e.g.: convenient loader display)
+- `persist: (state) => any` - adds data persistence between `START`, `SUCCESS` and `FAIL` action steps. The persisted data is stored under `action.__persisted__`. Could be used to undo an effect created on one request start, on its fail
 
 ## Usage
 
