@@ -46,4 +46,4 @@ const initClientMiddleware = ({ client, handleError }) => ({
   return actionPromise
 }
 
-export default initClientMiddleware
+module.exports = initClientMiddleware
