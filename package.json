@@ -6,7 +6,7 @@
     "client",
     "middleware"
   ],
-  "version": "0.0.14",
+  "version": "1.0.0",
   "description": "A middleware to a popular redux approach",
   "main": "index.js",
   "repository": "https://github.com/defusioner/ducks-client-middleware",
