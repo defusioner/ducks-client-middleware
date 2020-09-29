@@ -1,15 +1,18 @@
 {
   "name": "ducks-client-middleware",
-  "version": "0.0.13",
-  "description": "A middleware to a popular redux approach",
-  "main": "index.js",
-  "repository": "https://github.com/defusioner/ducks-client-middleware",
   "keywords": [
     "redux",
     "ducks",
     "client",
     "middleware"
   ],
+  "version": "0.0.13",
+  "description": "A middleware to a popular redux approach",
+  "main": "index.js",
+  "repository": "https://github.com/defusioner/ducks-client-middleware",
   "author": "borys.koretskyi@gmail.com",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "jest": "^26.4.2"
+  }
 }

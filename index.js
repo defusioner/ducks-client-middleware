@@ -1,12 +1,7 @@
 const createDebouncePromise = (func, wait) =>
-  new Promise((res, rej) =>
+  new Promise(res =>
     setTimeout(() => {
-      try {
-        const result = func()
-        res(result)
-      } catch (e) {
-        rej(e)
-      }
+      res(func())
     }, wait)
   )
 
